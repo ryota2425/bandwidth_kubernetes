@@ -1,0 +1,32 @@
+##++
+apiVersion: v1
+kind: Service
+metadata:
+  name: bandwidthserver2
+spec:
+  selector:
+    pod: bandwidthserver2
+  ports:
+  - port: 31112
+    targetPort: http
+    nodePort: 31112
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bandwidthserver2
+  labels:
+    pod: bandwidthserver2
+spec:
+  hostNetwork: true
+  containers:
+  - name: bandwidthserver2
+    securityContext:
+      privileged: true
+    image: nvidiafish/bandwidth_server
+    ports:
+    - containerPort: 31112
+  nodeSelector:
+    device: server

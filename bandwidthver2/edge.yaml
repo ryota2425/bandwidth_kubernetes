@@ -1,0 +1,52 @@
+##++
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bandwidthedge
+  namespace: ingress-nginx
+  #namespace: bandwidth
+  labels:
+    pod: bandwidthedge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bandwidthedge
+  template:
+    metadata:
+      labels:
+        app: bandwidthedge
+    spec:
+      hostNetwork: true
+      containers:
+        - name: bandwidthedge
+          image: nvidiafish/bandclient
+          ports:
+            - containerPort: 32320
+          securityContext:
+            privileged: true
+          env:
+          - name: SERVER_PORT
+            value: "32320"
+          - name: PYTHONUNBUFFERED
+            value: "0"
+      nodeSelector:
+        device: edge
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: bandwidthedge
+  #namespace: bandwidth
+spec:
+  selector:
+    pod: bandwidthedge
+  type: NodePort
+  ports:
+  - port: 32320
+    targetPort: 32320
+    nodePort: 32325
+
+
+

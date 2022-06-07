@@ -1,0 +1,32 @@
+##++
+apiVersion: v1
+kind: Service
+metadata:
+  name: bandwidthedge
+spec:
+  selector:
+    pod: bandwidthedge
+  ports:
+  - port: 31115
+    targetPort: http
+    nodePort: 31115
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bandwidthedge
+  labels:
+    pod: bandwidthedge
+spec:
+  hostNetwork: true
+  containers:
+  - name: bandwidthedge
+    securityContext:
+      privileged: true
+    image: nvidiafish/bandwidth_edge
+    ports:
+    - containerPort: 31115
+  nodeSelector:
+    device: edge
