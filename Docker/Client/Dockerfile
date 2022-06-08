@@ -21,7 +21,7 @@ RUN pip3 install prometheus_client
 #RUN pip3 install subprocess
 
 
-RUN wget https://gist.githubusercontent.com/ryota2425/3112c5748fe33df82c44806034e3b498/raw/c16613dc7a9f028aa06535f1e1fd6530849c3efc/client.py -O temp1.py
+RUN wget https://gist.githubusercontent.com/ryota2425/3112c5748fe33df82c44806034e3b498/raw/943d5ba5b2820199c97fcf8569e52593cdcc3a94/client.py -O temp1.py
 #COPY temp2.py ./
 RUN pip3 install iperf3
 RUN git clone https://github.com/esnet/iperf.git &&  cd iperf && ./configure; make; make install && cd  /usr/local/lib/ && ldconfig
