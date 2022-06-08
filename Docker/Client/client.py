@@ -18,6 +18,7 @@ bandwidth_receiver = Gauge('my_bandwidth_receiver', 'iperf3_bandwidth_receiver',
 # iperf3 -c 192.168.30.80 -J -f "m" --get-server-output
 IPaddr = os.environ.get('SERVER_IP',"192.168.30.80")#
 IPport = os.environ.get('SERVER_PORT',"31113")
+IPaddr_upload = os.environ.get('UPLOAD_IP',"192.168.30.50:30011")#
 def run_iperf3_server():
     print("start iperf subprocess")
     process = subprocess.run(['iperf3', '-c', IPaddr ,'-J',"--port",IPport], stdout=PIPE, stderr=PIPE)
@@ -44,7 +45,7 @@ if __name__ == '__main__':
             #公開
             bandwidth_sender.set(bit_to_mbit(result["end"]["streams"][0]["sender"]["bits_per_second"]))
             bandwidth_receiver.set(bit_to_mbit(result["end"]["streams"][0]["receiver"]["bits_per_second"]))
-            push_to_gateway('192.168.30.80:30011', job='batch_bandwidth', registry=registry)
+            push_to_gateway(IPaddr_upload, job='batch_bandwidth', registry=registry)
             #downTime.set(bit_to_mbit(result["upload"]))
         except Exception as e:
             print(e)
