@@ -30,6 +30,8 @@ spec:
             value: "32320"
           - name: PYTHONUNBUFFERED
             value: "0"
+          - name: UPLOAD_IP
+            value: "192.168.30.50:30011"
       nodeSelector:
         device: edge
 ---
